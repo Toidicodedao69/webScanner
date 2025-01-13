@@ -19,22 +19,19 @@ window.onload = function () {
 
 
 // Click button to open scanner
-document.getElementById("scanCamera").onclick = openScanner;
+// document.getElementById("scanCamera").onclick = openScanner();
 
 function openScanner() {
-    const html5Qrcode = new Html5Qrcode('scanner');
+    const html5QrCode = new Html5Qrcode('scanner');
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
         if (decodedText) {
             lastScannedBarCode = decodedText;
 
             processBarcode(lastScannedBarCode);
             
-            html5Qrcode.stop();
+            html5QrCode.stop();
 
             lastScannedBarCode = ""
-        }
-        else {
-            return <div>Cannot read bar code</div>
         }
     };
 

@@ -9,7 +9,8 @@
     <script src="js/firebase.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="js/html5-qrcode.js"></script>
+    
 
     <!-- Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -24,6 +25,7 @@
     <title>Web Scanner</title>
 </head>
 <body>
+    
     <div id="app">
         <div class="header">Order</div>
 
@@ -31,8 +33,11 @@
             State: <b>{{operationState.current}}</b>
         </div>
 
+        <div id="scanner" style="width: 500px;"></div>
+
         <div class="noitems" v-if="scannedProducts.length == 0">No items added yet. Scan barcode of products.</div>
 
+        
         <div v-if="scannedProducts.length > 0" v-for="item in scannedProducts">
             <div class="jumbotron">
                 <h1 class="display-5">
@@ -60,7 +65,7 @@
             </div> 
 
             <div class="float-left bottomcamera">
-                <button id="scanCamera">Camera</button>
+                <button id="scanCamera" onclick="openScanner()">Camera</button>
             </div>
         </div>
     </div>
