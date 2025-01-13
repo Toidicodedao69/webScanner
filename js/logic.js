@@ -18,25 +18,29 @@ window.onload = function () {
 };
 
 
-// Global event handler
-document.onkeypress = onGlobalKeyPressed;
+// Click button to open scanner
+document.getElementById("scanCamera").onclick = openScanner;
 
-function onGlobalKeyPressed(e) {
-    var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
+function openScanner() {
+    const html5Qrcode = new Html5Qrcode('scanner');
+    const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+        if (decodedText) {
+            lastScannedBarCode = decodedText;
 
-    if (charCode != 13) { // ascii 13 is return key
-        lastScannedBarCode += String.fromCharCode(charCode);
-    } else { // barcode reader indicate code finished with "enter"
-        var lastCode = lastScannedBarCode;
+            processBarcode(lastScannedBarCode);
+            
+            html5Qrcode.stop();
 
-        if (lastCode == "CommandAdd") { // Switch to add command
-            operationState.current = "Adding";
-        } if (lastCode == "CommandDelete") { // Switch to delete command
-            operationState.current = "Deleting";
-        } else processBarcode(lastCode);
+            lastScannedBarCode = ""
+        }
+        else {
+            return <div>Cannot read bar code</div>
+        }
+    };
 
-        lastScannedBarCode = ""; // zero out last code (so we do not keep adding)
-    }    
+    const config = { fps: 10, qrbox: { width: 350, height: 100 } };
+    // Using back camera
+    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
 }
 
 function addOrSubtractFromExistingBarcodeObj(barcodeIndex) {
